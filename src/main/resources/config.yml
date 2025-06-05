@@ -1,0 +1,51 @@
+#MBPP配置文件
+#Design By MossCG
+
+#前言
+#当你确认配置没问题后，请将以下选项修改为true后再启动喵
+enable: false
+
+#----------------------------------
+#HttpAPI模块信息
+
+#HttpAPI端口
+httpPort: 7891
+httpToken: "123456789abc"
+#代理账号
+proxyAccount: "mosscg"
+proxyPassword: "password2233"
+
+#----------------------------------
+#阿里云模块信息
+
+#基于阿里云ECS
+#阿里云AccessKey信息
+AliyunAccessKeyID: "123"
+AliyunAccessKeySecret: "456"
+
+#IP池IP数量
+IPAmount: 2
+#实例规格
+regionID: "cn-hangzhou"
+zoneID: "cn-hangzhou-a"
+instanceType: "ecs.n1.tiny"
+securityGroupID: "xxx"
+#实例统一账号密码
+ECSUser: "root"
+ECSAuth: "123456abc"
+#ECS存活时间上限（秒）
+liveTime: 3600
+
+#----------------------------------
+#MySQL数据库设置（暂时无用）
+
+#MySQL基础设置
+MySQLAddress: "127.0.0.1"
+MySQLPort: "3306"
+MySQLDatabase: "mbpp"
+MySQLUser: "root"
+MySQLPassword: "123456"
+
+#----------------------------------
+#是否显示调试信息
+debug: true

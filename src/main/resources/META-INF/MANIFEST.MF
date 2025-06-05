@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Implementation-Title: MoBoxProxyPool
+Implementation-Version: 1.0
+Implementation-Vendor: MossCG
+Main-Class: org.moboxlab.MoBoxProxyPool.Main

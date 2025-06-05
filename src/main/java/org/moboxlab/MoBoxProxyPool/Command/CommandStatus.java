@@ -1,0 +1,29 @@
+package org.moboxlab.MoBoxProxyPool.Command;
+
+import org.moboxlab.MoBoxProxyPool.BasicInfo;
+import org.moboxlab.MoBoxProxyPool.Cache.CacheECS;
+import org.mossmc.mosscg.MossLib.Object.ObjectCommand;
+import org.mossmc.mosscg.MossLib.Object.ObjectLogger;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class CommandStatus extends ObjectCommand {
+    @Override
+    public List<String> prefix() {
+        List<String> prefixList = new ArrayList<>();
+        prefixList.add("status");
+        return prefixList;
+    }
+
+    @Override
+    public boolean execute(String[] args, ObjectLogger logger) {
+        BasicInfo.logger.sendInfo("MoBoxProxyPool 统计信息");
+        BasicInfo.logger.sendInfo("=======================");
+        BasicInfo.logger.sendInfo("      代理ECS信息");
+        CacheECS.ecsMap.forEach((instanceID, objectECS) -> {
+            BasicInfo.logger.sendInfo(instanceID+" | "+objectECS.IP+" | "+objectECS.status);
+        });
+        return true;
+    }
+}
