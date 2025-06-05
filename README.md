@@ -1,6 +1,20 @@
 # MoBoxProxyPool 
 ## ——墨盒代理池管理系统 
 
+### 兼容性
+| key    | value |
+|--------|-------|
+| Java   | 8+    |
+| Centos | 7.9   |
+
+### 优势
+- 绝绝子降低代理池成本
+- 参考价格：
+- iproyal家宽http代理：35RMB/G流量，IP池不确定深浅
+- 基于MBPP的阿里云http代理：0.8RMB/G流量+0.03/IP/小时
+- 可设置IP存活时间，超时自动换IP
+- 全自动化服务器部署
+
 ### 代码流程
 - 括号中对应实例状态标识和是否可用标识
 - 1.创建实例（状态：CREATED/False）
@@ -42,11 +56,12 @@
 2. 阿里云创建权限用户（https://ram.console.aliyun.com/users）
 3. 保存创建用户的AccessKeyID和AccessKeySecret备用，给该用户ecs全部权限
 4. 去阿里云ecs选择你心仪的ecs规格和地区，保存备用
-5. 准备一台服务器，安装java8，运行本jar
-6. 填写位于MBProxyPool/config.yml的配置文件
-7. 保证对应httpAPI端口开放，再次启动本软件
-8. 正常情况下会自动启动并调用ecs接口
-9. 客户端通过API获取代理信息并配置
+5. 在阿里云配置好安全组策略，无脑开放全部端口即可
+6. 准备一台服务器，安装java8，运行本jar
+7. 填写位于MBProxyPool/config.yml的配置文件
+8. 保证对应httpAPI端口开放，再次启动本软件
+9. 正常情况下会自动启动并调用ecs接口
+10. 客户端通过API获取代理信息并配置
 
 - 客户端代码参考（Python）
 ```
