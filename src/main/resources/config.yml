@@ -9,11 +9,24 @@ enable: false
 #HttpAPI模块信息
 
 #HttpAPI端口
+#token请务必修改，这是访问接口的最基础校验
 httpPort: 7891
 httpToken: "123456789abc"
-#代理账号
+
+#----------------------------------
+#代理模块信息
+#配置到代理服务器的代理账号
 proxyAccount: "mosscg"
 proxyPassword: "password2233"
+
+#备用代理，建议设置为付费代理池，作为兜底
+#此项开启时，当某session所有IP都用过了之后，会自动切换到备用代理
+#否则会从用过的里面随机一个
+enableBackup: false
+backupHost: "xxx.xx.xx.xx"
+backupPort: "12345"
+backupUser: "abc"
+backupPassword: "123"
 
 #----------------------------------
 #阿里云模块信息
@@ -23,18 +36,23 @@ proxyPassword: "password2233"
 AliyunAccessKeyID: "123"
 AliyunAccessKeySecret: "456"
 
-#IP池IP数量
+#IP池IP数量（必须大于等于1）
 IPAmount: 2
-#实例规格
+#实例规格（建议选最小规格，够用了）
 regionID: "cn-hangzhou"
 zoneID: "cn-hangzhou-a"
 instanceType: "ecs.n1.tiny"
 securityGroupID: "xxx"
-#实例统一账号密码
+#实例统一账号密码（请务必修改）
 ECSUser: "root"
 ECSAuth: "123456abc"
 #ECS存活时间上限（秒）
+#配置时间需要一分钟左右，此项建议设置大于180
 liveTime: 3600
+#session超时时间（秒）
+#超过该时间，同一session就可以复用该IP
+#B站412风控应设为20min（1200s）
+sessionTime: 1200
 
 #----------------------------------
 #MySQL数据库设置（暂时无用）
