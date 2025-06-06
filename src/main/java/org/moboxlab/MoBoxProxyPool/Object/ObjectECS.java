@@ -5,9 +5,7 @@ import com.jcraft.jsch.Session;
 import org.moboxlab.MoBoxProxyPool.BasicInfo;
 
 import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 public class ObjectECS {
     public String instanceID;
@@ -25,7 +23,7 @@ public class ObjectECS {
 
     public BasicInfo.ECSStatus status = BasicInfo.ECSStatus.CREATED;
 
-    public Set<String> sessionSet = new HashSet<>();
+    public Map<String,Long> sessionMap = new HashMap<>();
 
     public Session getSSHSession() {
         try {
@@ -44,7 +42,7 @@ public class ObjectECS {
         }
     }
 
-    public void timeCheck() {
+    public boolean timeCheck() {
         try {
             long nowTime = System.currentTimeMillis();
             long hasLive = nowTime-createTime;
@@ -53,10 +51,12 @@ public class ObjectECS {
                 BasicInfo.logger.sendWarn("实例"+instanceID+"存活时间已超时，即将释放！");
                 status = BasicInfo.ECSStatus.CYCLING;
                 available = false;
+                return true;
             }
         } catch (Exception e) {
             BasicInfo.logger.sendException(e);
         }
+        return false;
     }
 
     public void setCreateTime(String create) {
@@ -74,5 +74,13 @@ public class ObjectECS {
         long hasLive = nowTime-createTime;
         long maxLive = BasicInfo.config.getInteger("liveTime")*1000L;
         return maxLive-hasLive;
+    }
+
+    public void checkSessionMap() {
+        Set<String> keySet = new HashSet<>(sessionMap.keySet());
+        keySet.forEach(key -> {
+            long maxTime = sessionMap.get(key)+BasicInfo.config.getInteger("sessionTime")*1000L;
+            if (maxTime < System.currentTimeMillis()) sessionMap.remove(key);
+        });
     }
 }
