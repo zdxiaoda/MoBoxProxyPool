@@ -11,13 +11,26 @@ public class CacheProxy {
     public static Random random = new Random();
     public static ObjectECS getProxy(String sessionID) {
         try {
+            //建立初始可用池
             List<String> pool = getAvailablePool();
+            //session检查
             pool = getSessionFreePool(pool,sessionID);
-            BasicInfo.sendDebug(String.valueOf(pool.size()));
+            //可用池直接分配
             if (pool.size() != 0) return getRandomECS(pool,sessionID);
+            //可用池空则尝试触发保底
+            if (BasicInfo.config.getBoolean("enableBackup")) {
+                ObjectECS backupECS = new ObjectECS();
+                backupECS.createTime = System.currentTimeMillis()-30*60*1000L;
+                backupECS.IP = BasicInfo.config.getString("backupHost");
+                backupECS.proxyPort = BasicInfo.config.getString("backupPort");
+                backupECS.proxyAccount = BasicInfo.config.getString("backupUser");
+                backupECS.proxyPassword = BasicInfo.config.getString("backupPassword");
+                return backupECS;
+            }
         } catch (Exception e) {
             BasicInfo.logger.sendException(e);
         }
+        if (CacheECS.targetAmount == 0) return null;
         return getRandomECS(getAvailablePool(),sessionID);
     }
 
@@ -33,7 +46,7 @@ public class CacheProxy {
     public static List<String> getSessionFreePool(List<String> cachePool, String sessionID) {
         List<String> resultPool = new ArrayList<>();
         cachePool.forEach(id -> {
-            if (!CacheECS.ecsMap.get(id).sessionSet.contains(sessionID)) resultPool.add(id);
+            if (!CacheECS.ecsMap.get(id).sessionMap.containsKey(sessionID)) resultPool.add(id);
         });
         return resultPool;
     }
@@ -41,7 +54,7 @@ public class CacheProxy {
     public static ObjectECS getRandomECS(List<String> pool,String sessionID) {
         int loc = random.nextInt(pool.size());
         ObjectECS ecs = CacheECS.ecsMap.get(pool.get(loc));
-        ecs.sessionSet.add(sessionID);
+        ecs.sessionMap.put(sessionID,System.currentTimeMillis());
         return ecs;
     }
 }

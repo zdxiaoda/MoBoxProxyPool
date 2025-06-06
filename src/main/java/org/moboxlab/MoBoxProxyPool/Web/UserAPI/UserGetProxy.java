@@ -23,8 +23,9 @@ public class UserGetProxy {
      * }
      */
     public static void getResponse(JSONObject data,JSONObject responseData) {
-        responseData.replace("status",true);
         ObjectECS ecs = CacheProxy.getProxy(data.getString("sessionID"));
+        if (ecs == null) return;
+        responseData.replace("status",true);
         responseData.put("proxyHost",ecs.IP+":"+ecs.proxyPort);
         responseData.put("proxyUser",ecs.proxyAccount);
         responseData.put("proxyPassword",ecs.proxyPassword);

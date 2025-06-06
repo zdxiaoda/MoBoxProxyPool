@@ -75,7 +75,7 @@ public class Main {
         BasicInfo.debug = BasicInfo.config.getBoolean("debug");
         CacheECS.updateAmount(BasicInfo.config.getInteger("IPAmount"));
         BasicInfo.logger.sendInfo("正在刷新缓存......");
-        //此处留给需要刷新缓存的代码
+        // CacheECS.ecsMap.forEach((s, ecs) -> ecs.sessionMap.clear());
         BasicInfo.logger.sendInfo("重载完成！");
     }
 }
