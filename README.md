@@ -87,3 +87,11 @@ def getProxy():
     session.proxies = proxies
 ```
 - 建议补充连通性测试，请自行编写
+
+### 指令参考
+| 指令     | 别名           | 示例     | 介绍             |
+|--------|--------------|--------|----------------|
+| debug  | api          | debug  | 开启/关闭debug信息显示 |
+| reload | reloadConfig | reload | 重载配置文件，即时生效    |
+| status | /            | status | 查询状态信息         |
+| exit   | quit         | exit   | 没啥用的退出命令       |
