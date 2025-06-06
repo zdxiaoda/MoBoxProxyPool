@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class TickMain {
+    public static long mspt = 0;
     public static Thread tickThread;
     public static void runTick() {
         CacheLoad.loadCacheECS();
@@ -29,6 +30,7 @@ public class TickMain {
             BasicInfo.logger.sendException(e);
         }
         while (true) {
+            long start = System.currentTimeMillis();
             try {
                 BasicInfo.sendDebug("正在执行Tick......");
                 // 遍历ECS缓存，检查ECS状态
@@ -82,6 +84,8 @@ public class TickMain {
                 BasicInfo.logger.sendException(e);
                 BasicInfo.logger.sendWarn("执行Tick时出现错误！");
             }
+            long end = System.currentTimeMillis();
+            mspt = end-start;
             try {
                 Thread.sleep(20000L);
             } catch (Exception e) {
