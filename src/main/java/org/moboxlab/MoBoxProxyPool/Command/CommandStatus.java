@@ -24,7 +24,7 @@ public class CommandStatus extends ObjectCommand {
         BasicInfo.logger.sendInfo("MSPT时间："+ TickMain.mspt);
         BasicInfo.logger.sendInfo("=======================");
         BasicInfo.logger.sendInfo("      代理池信息");
-        BasicInfo.logger.sendInfo(" 实例ID | IP地址 | 状态 | session数");
+        BasicInfo.logger.sendInfo(" 实例ID | IP地址 | 状态 | session");
         CacheECS.ecsMap.forEach((instanceID, objectECS) -> {
             BasicInfo.logger.sendInfo(instanceID+" | "+objectECS.IP+" | "+objectECS.status+" | "+objectECS.sessionMap.size());
         });

@@ -58,7 +58,7 @@ public class TickMain {
                             case RUNNING:
                                 //运行中状态
                                 boolean timeCheck = CacheECS.ecsMap.get(instanceID).timeCheck();
-                                if (timeCheck) createNewECS();
+                                if (timeCheck && ((CacheECS.ecsMap.size()-1) < CacheECS.targetAmount)) createNewECS();
                                 CacheECS.ecsMap.get(instanceID).checkSessionMap();
                                 break;
                             case CYCLING:
