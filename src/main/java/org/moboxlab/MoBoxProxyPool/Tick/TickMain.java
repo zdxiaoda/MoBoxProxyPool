@@ -76,8 +76,8 @@ public class TickMain {
                     BasicInfo.logger.sendInfo("检测到IP数量不足，正在自动新建ECS......");
                     BasicInfo.logger.sendInfo("缺少数量："+remain);
                     for (int i = 0; i < remain; i++) {
-                        //不做异步操作，免得同一时间有大量IP到期
-                        createNewECS();
+                        asyncCreate();
+                        Thread.sleep(800L);
                     }
                 }
             } catch (Exception e) {

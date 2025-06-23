@@ -11,24 +11,20 @@ public class AliyunStartInstance {
         String requestType = "启动实例";
         try {
             BasicInfo.sendDebug("Aliyun查询："+requestType);
+            Thread.sleep(1000L);
             StartInstanceRequest request = new StartInstanceRequest();
             request = request.setInstanceId(instanceID);
             Client client = AliyunSDK.client;
             StartInstanceResponse response = client.startInstance(request);
             BasicInfo.sendDebug("Aliyun查询："+requestType+"。状态码："+response.statusCode);
-            if (response.statusCode == 403) {
-                BasicInfo.sendDebug("Aliyun查询："+requestType+"。等待5s重试！");
-                Thread.sleep(5000L);
-                return startInstance(instanceID);
-            }
             JSONObject result = new JSONObject(response.getBody().toMap());
             BasicInfo.sendDebug(result.toJSONString());
             BasicInfo.sendDebug("Aliyun查询："+requestType+"。结果：成功！");
             return result;
         } catch (Exception e) {
-            BasicInfo.logger.sendException(e);
+            BasicInfo.logger.sendWarn("启动实例失败，自动重试中！");
             BasicInfo.sendDebug("Aliyun查询："+requestType+"。结果：失败！");
-            return null;
+            return startInstance(instanceID);
         }
     }
 }
