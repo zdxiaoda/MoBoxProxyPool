@@ -20,7 +20,7 @@ public class TencentCreateInstance {
             RunInstancesRequest request = new RunInstancesRequest();
 
             // 基础配置
-            request.setImageId("img-6n21msk1"); // CentOS 7.6 64位
+            request.setImageId("img-6n21msk1"); // 腾讯云 Linux
             request.setInstanceType(instanceType);
             request.setPlacement(new com.tencentcloudapi.cvm.v20170312.models.Placement());
             request.getPlacement().setZone(zoneId);
