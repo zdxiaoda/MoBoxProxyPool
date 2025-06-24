@@ -6,6 +6,7 @@ import com.tencentcloudapi.cvm.v20170312.models.RunInstancesResponse;
 import com.tencentcloudapi.cvm.v20170312.models.InstanceChargePrepaid;
 import com.tencentcloudapi.cvm.v20170312.models.VirtualPrivateCloud;
 import com.tencentcloudapi.cvm.v20170312.models.InternetAccessible;
+import com.tencentcloudapi.cvm.v20170312.models.SystemDisk;
 
 import com.tencentcloudapi.cvm.v20170312.models.LoginSettings;
 import com.tencentcloudapi.cvm.v20170312.models.InstanceMarketOptionsRequest;
@@ -33,6 +34,12 @@ public class TencentCreateInstance {
 
             // 安全组配置
             request.setSecurityGroupIds(BasicInfo.config.getStringList("securityGroupIds").toArray(new String[0]));
+
+            // 系统盘配置
+            SystemDisk systemDisk = new SystemDisk();
+            systemDisk.setDiskSize(30L); // 设置系统盘大小为30G
+            request.setSystemDisk(systemDisk);
+            BasicInfo.sendDebug("系统盘配置: 类型=" + systemDisk.getDiskType() + ", 大小=" + systemDisk.getDiskSize() + "GB");
 
             // 不设置系统盘配置，使用腾讯云默认值
             BasicInfo.sendDebug("使用腾讯云默认系统盘配置");

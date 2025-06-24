@@ -47,11 +47,6 @@ regionName: "ap-guangzhou"
 zoneId: "ap-guangzhou-1"
 #实例规格（建议选最小规格，够用了）：S5.SMALL1、S5.MEDIUM2等
 instanceType: "S5.SMALL1"
-#系统盘配置
-#磁盘类型：CLOUD_BASIC（普通）、CLOUD_BSSD（通用SSD）、CLOUD_SSD（SSD）、CLOUD_PREMIUM（高性能）
-systemDiskType: "CLOUD_BASIC"
-#系统盘大小（GB）
-systemDiskSize: 35
 
 #竞价实例配置
 #是否启用竞价实例（Spot Instance）
