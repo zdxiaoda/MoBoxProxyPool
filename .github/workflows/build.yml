@@ -1,0 +1,58 @@
+name: Build JAR on Tag Push
+
+on:
+  push:
+    tags:
+      - "*" # 匹配所有tag
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 设置 Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: "21"
+          distribution: "temurin"
+
+      - name: 缓存 Maven 依赖
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: 安装 MossLib.jar 到本地仓库
+        run: mvn install:install-file -Dfile=depend/MossLib.jar -DgroupId=org.mossmc -DartifactId=mosslib -Dversion=1.0.0 -Dpackaging=jar
+
+      - name: 编译项目
+        run: mvn clean compile
+
+      - name: 运行测试
+        run: mvn test
+
+      - name: 打包 JAR
+        run: mvn package
+
+      - name: 获取 tag 名称
+        id: tag
+        run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: 上传 JAR 文件
+        uses: actions/upload-artifact@v3
+        with:
+          name: MoBoxProxyPool-${{ steps.tag.outputs.TAG_NAME }}
+          path: target/MoBoxProxyPool-*.jar
+
+      - name: 创建 Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: target/MoBoxProxyPool-*.jar
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

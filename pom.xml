@@ -19,8 +19,6 @@
             <groupId>org.mossmc</groupId>
             <artifactId>mosslib</artifactId>
             <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/depend/MossLib.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.tencentcloudapi</groupId>
