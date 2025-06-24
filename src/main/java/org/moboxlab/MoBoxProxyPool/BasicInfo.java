@@ -5,7 +5,7 @@ import org.mossmc.mosscg.MossLib.Object.ObjectConfig;
 import org.mossmc.mosscg.MossLib.Object.ObjectLogger;
 
 public class BasicInfo {
-    public static String version = "V1.1.1.1.2312";
+    public static String version = "V1.1.1.1.0624";
     public static String author = "MossCG";
 
     public static ObjectLogger logger;
@@ -19,11 +19,12 @@ public class BasicInfo {
      * CYCLING 标记到期，即将被回收
      */
     public enum ECSStatus {
-        CREATED,INSTALLING,RUNNING,CYCLING
+        CREATED, INSTALLING, RUNNING, CYCLING
     }
 
     public static boolean debug = false;
+
     public static void sendDebug(String message) {
-        logger.sendAPI(message,debug);
+        logger.sendAPI(message, debug);
     }
 }

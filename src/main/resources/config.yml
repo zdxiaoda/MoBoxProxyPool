@@ -1,5 +1,6 @@
 #MBPP配置文件
 #Design By MossCG
+#基于腾讯云CVM的代理池管理系统
 
 #前言
 #当你确认配置没问题后，请将以下选项修改为true后再启动喵
@@ -29,26 +30,55 @@ backupUser: "abc"
 backupPassword: "123"
 
 #----------------------------------
-#阿里云模块信息
+#腾讯云模块信息
 
-#基于阿里云ECS
-#阿里云AccessKey信息
-AliyunAccessKeyID: "123"
-AliyunAccessKeySecret: "456"
+#基于腾讯云CVM
+#腾讯云API密钥信息 (https://console.cloud.tencent.com/cam/capi)
+TencentSecretId: "AKIDxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+TencentSecretKey: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 #IP池IP数量（必须大于等于1）
 IPAmount: 2
-#实例规格（建议选最小规格，够用了）
-regionID: "cn-hangzhou"
-zoneID: "cn-hangzhou-a"
-instanceType: "ecs.n1.tiny"
-securityGroupID: "xxx"
+
+#实例配置
+#地域名称（如：ap-guangzhou、ap-beijing、ap-shanghai等）
+regionName: "ap-guangzhou"
+#可用区ID（如：ap-guangzhou-1、ap-beijing-1等）
+zoneId: "ap-guangzhou-1"
+#实例规格（建议选最小规格，够用了）：S5.SMALL1、S5.MEDIUM2等
+instanceType: "S5.SMALL1"
+#系统盘配置
+#磁盘类型：CLOUD_BASIC（普通）、CLOUD_BSSD（通用SSD）、CLOUD_SSD（SSD）、CLOUD_PREMIUM（高性能）
+systemDiskType: "CLOUD_BASIC"
+#系统盘大小（GB）
+systemDiskSize: 35
+
+#竞价实例配置
+#是否启用竞价实例（Spot Instance）
+enableSpotInstance: true
+#竞价实例最高出价（单位：元/小时）
+#设置为0表示接受市场价（自动设置为10元/小时限制）
+#建议设置具体值，如: 0.5 表示最高愿意支付0.5元/小时
+spotMaxPrice: 0.0
+#当spotMaxPrice为0时的默认最高限制价格（元/小时）
+spotDefaultMaxPrice: 1.0
+
+#网络配置
+#VPC网络ID（必须已存在）
+vpcId: "vpc-xxxxxxxxx"
+#子网ID（必须已存在）
+subnetId: "subnet-xxxxxxxxx"
+#安全组ID列表（必须已存在，建议开放全部端口）
+securityGroupIds: ["sg-xxxxxxxxx"]
+
 #实例统一账号密码（请务必修改）
-ECSUser: "root"
-ECSAuth: "123456abc"
-#ECS存活时间上限（秒）
+CVMUser: "root"
+CVMAuth: "123456abc"
+
+#CVM存活时间上限（秒）
 #配置时间需要一分钟左右，此项建议设置大于180
 liveTime: 3600
+
 #session超时时间（秒）
 #超过该时间，同一session就可以复用该IP
 #B站412风控应设为20min（1200s）

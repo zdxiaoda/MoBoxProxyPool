@@ -5,7 +5,7 @@ import org.moboxlab.MoBoxProxyPool.Command.CommandDebug;
 import org.moboxlab.MoBoxProxyPool.Command.CommandExit;
 import org.moboxlab.MoBoxProxyPool.Command.CommandReload;
 import org.moboxlab.MoBoxProxyPool.Command.CommandStatus;
-import org.moboxlab.MoBoxProxyPool.Request.AliyunSDK;
+import org.moboxlab.MoBoxProxyPool.Request.TencentSDK;
 import org.moboxlab.MoBoxProxyPool.Tick.TickMain;
 import org.moboxlab.MoBoxProxyPool.Web.WebMain;
 import org.mossmc.mosscg.MossLib.Command.CommandManager;
@@ -18,19 +18,19 @@ public class Main {
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis();
         FileCheck.checkDirExist("./MBProxyPool");
-        FileCheck.checkFileExist("./MBProxyPool/squid.conf","squid.conf");
+        FileCheck.checkFileExist("./MBProxyPool/squid.conf", "squid.conf");
         ObjectLogger logger = new ObjectLogger("./MBProxyPool/logs");
         BasicInfo.logger = logger;
 
-        //初始化依赖
-        FileDependency.loadDependencyDir("./MBProxyPool/dependency","dependency");
+        // 初始化依赖
+        FileDependency.loadDependencyDir("./MBProxyPool/dependency", "dependency");
 
-        //基础信息输出
+        // 基础信息输出
         logger.sendInfo("欢迎使用MBProxyPool软件");
         logger.sendInfo("软件版本：" + BasicInfo.version);
         logger.sendInfo("软件作者：" + BasicInfo.author);
 
-        //配置读取
+        // 配置读取
         logger.sendInfo("正在读取配置文件......");
         BasicInfo.config = ConfigManager.getConfigObject("./MBProxyPool", "config.yml", "config.yml");
         if (!BasicInfo.config.getBoolean("enable")) {
@@ -41,32 +41,32 @@ public class Main {
         }
         BasicInfo.debug = BasicInfo.config.getBoolean("debug");
 
-        //MySQL连接及初始化（暂时用不到数据库功能）
-        //logger.sendInfo("正在初始化MySQL模块......");
-        //MySQLMain.initMySQL();
+        // MySQL连接及初始化（暂时用不到数据库功能）
+        // logger.sendInfo("正在初始化MySQL模块......");
+        // MySQLMain.initMySQL();
 
-        //Aliyun连接及初始化
-        logger.sendInfo("正在初始化Aliyun模块......");
-        AliyunSDK.loadAliyunClient();
+        // Tencent连接及初始化
+        logger.sendInfo("正在初始化Tencent模块......");
+        TencentSDK.loadTencentClient();
 
-        //Tick循环初始化
+        // Tick循环初始化
         logger.sendInfo("正在初始化Tick模块......");
         CacheECS.updateAmount(BasicInfo.config.getInteger("IPAmount"));
         TickMain.runTick();
 
-        //Http服务初始化
+        // Http服务初始化
         logger.sendInfo("正在初始化Web模块......");
         WebMain.initWeb();
 
-        //命令行初始化
-        CommandManager.initCommand(BasicInfo.logger,true);
+        // 命令行初始化
+        CommandManager.initCommand(BasicInfo.logger, true);
         CommandManager.registerCommand(new CommandDebug());
         CommandManager.registerCommand(new CommandExit());
         CommandManager.registerCommand(new CommandReload());
         CommandManager.registerCommand(new CommandStatus());
 
         long completeTime = System.currentTimeMillis();
-        logger.sendInfo("启动完成！耗时："+(completeTime-startTime)+"毫秒！");
+        logger.sendInfo("启动完成！耗时：" + (completeTime - startTime) + "毫秒！");
     }
 
     public static void reloadConfig() {
