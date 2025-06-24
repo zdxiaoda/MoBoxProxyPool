@@ -65,9 +65,9 @@
 
 1. 毫无云服务器经验的用户左转出门哦
 2. 腾讯云创建访问密钥（https://console.cloud.tencent.com/cam/capi）
-3. 保存创建的 SecretId 和 SecretKey 备用，确保账号有 CVM 相关权限
+3. 保存创建的 SecretId 和 SecretKey 备用，确保账号有 CVM 和 Payment 相关权限
 4. 去腾讯云 CVM 选择你心仪的实例规格和地区，保存备用
-5. 在腾讯云配置好安全组策略，无脑开放全部端口即可
+5. 在腾讯云配置好安全组、VPC、子网策略，无脑开放全部端口即可
 6. 准备一台服务器，安装 java8，运行本 jar
 7. 填写位于 MBProxyPool/config.yml 的配置文件
 8. 保证对应 httpAPI 端口开放，再次启动本软件
